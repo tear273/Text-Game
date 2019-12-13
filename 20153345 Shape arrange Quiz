@@ -1,0 +1,223 @@
+#include<iostream>
+#include<windows.h> 
+
+using namespace std;
+
+class puzzleQuiz
+{
+public:
+	puzzleQuiz(){};
+	int puzzleSize[5][5];
+	int inputNum; //숫자의 입력에 따라 다른 방향  
+	int inputCount = 0; //움직인 횟수  
+	int number = 1;
+	bool gamewin = false;
+
+	void intro()
+	{
+		cout << "당신은 숫자 퍼즐에 도착했습니다." << endl;
+		cout << "이 숫자들을 오른쪽 아래에 있는 ♠를 이용해," << endl; 
+		cout << "첫 번째 줄을 ♠, ◆, ♥, ♣, A로 채우세요." << endl;
+		cout << "♠를 옮기면  옮긴 방향에 있던 숫자는 ♠가 있던 자리로  스왑됩니다." << endl;
+		cout << "♠를 아래 방향으로 움직이면 맨 밑줄로 내려갑니다." << endl;
+		cout << endl;
+		cout << endl;
+	}
+
+	void thePuzzle()
+	{
+		for (int i = 0; i < 5; i++) //초기 5행 5열의 배열을 1부터 25까지 초기화
+		{
+		for (int j = 0; j < 5; j++)
+			{
+			puzzleSize[i][j] = number;
+			number++;
+			}
+		}
+		
+		puzzleSize[4][4] = 0; //25가 들어있는[4][4] 번째 위치를 0 값으로 만듦  
+	}
+	
+	void startPos() //시작 위치  
+	{
+	int remA, remB; // Zero 값 위치를 찾아보고 [4][4]에 있지 않으면 0이 들어있는 위치랑 스왑
+	if (puzzleSize[4][4] != 0) //즉 ♠의 위치를 결정 
+		{
+		for (int i = 0; i < 5; i++)
+			{
+			for (int j = 0; j < 5; j++)
+				{
+				if (puzzleSize[i][j] == 0)
+					{
+					remA = i;
+					remB = j;
+					int temp = puzzleSize[4][4];
+					puzzleSize[4][4] = puzzleSize[i][j];
+					puzzleSize[i][j] = temp;
+					}
+				}
+			}
+		}
+	}
+	
+	void gameStart()
+	{
+		while (true) //게임 시작  
+		{
+		for (int i = 0; i < 5; i++) //★이 행, 렬 중 특정 숫자를 문자로 출력 
+			{
+			for (int j = 0; j < 5; j++)
+				{
+				if (puzzleSize[i][j] == 0) //0인 곳을 ★로 대체해 움직이는것처럼 만듦 
+					cout << "♠" << "\t"; // '/t'는 수평으로 tab을 누른것과 같은 기능 
+
+				else if (puzzleSize[i][j] == 24) //24인 곳을 ◆로 대체
+					cout << "◆" << "\t"; //  
+
+				else if (puzzleSize[i][j] == 15) //15인 곳을 ♥로 대체 
+					cout << "♥" << "\t"; 
+
+				else if (puzzleSize[i][j] == 6) //6인 곳을 ♣로 대체
+					cout << "♣" << "\t"; 
+					
+				else if (puzzleSize[i][j] == 8) //8인 곳을 A로 대체
+					cout << "A" << "\t"; 
+					
+					
+				else cout << puzzleSize[i][j] << "\t";
+				}
+			cout << endl;
+			cout << endl;
+			}
+			
+			
+	
+
+		int theNumber = 1;
+		int howmanyCount = 0;
+		if (!gamewin) //게임이 끝나지 않은경우 
+			{
+			for (int i = 0; i < 5; i++)
+				{
+				for (int j = 0; j < 5; j++)
+					{
+					if (puzzleSize[i][j] == theNumber)
+						{
+						theNumber++;
+						howmanyCount++;
+						}
+					}
+				}
+			if (puzzleSize[0][0]==0 && puzzleSize[0][1]==24 && puzzleSize[0][2]==15 && puzzleSize[0][3]==6 && puzzleSize[0][4]==8)
+				{
+				gamewin = true;
+				cout << "퍼즐을 통과하였습니다." << endl;
+				Sleep(1000);
+				break;
+				}
+			}
+		else break;
+
+		cout << "첫 번째 줄을 ♠, ◆, ♥, ♣, A 로 채우세요." << endl;
+		cout << "현재까지 움직인 횟수 : " << inputCount << endl;
+		cout << "움직일 방향의 숫자를 입력하세요." << endl;
+		cout << "←(4), →(8), ↑(6), ↓(5)" << endl;
+		cin >> inputNum;
+
+		while (true)
+		{
+			if (!cin.good() || inputNum != 8 && inputNum != 6 && inputNum != 5 && inputNum != 4)
+			{
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+				cout << "다시 입력하세요." << endl;
+				cout << "←(4), →(8), ↑(6), ↓(5)" << endl;
+				cin >> inputNum;
+				cout << endl;
+				continue;
+			}
+			else break;
+		}
+
+		if (inputNum == 4) //왼쪽으로 이동 
+		{
+			for (int i = 0; i < 5; i++)
+			{
+				for (int j = 0; j < 5; j++)
+				{
+					if (puzzleSize[i][j] == 0 && j > 0)
+					{
+						int temp = puzzleSize[i][j];
+						puzzleSize[i][j] = puzzleSize[i][j - 1];
+						puzzleSize[i][j - 1] = temp;
+					}
+				}
+			}
+		}
+
+		if (inputNum == 8) //위쪽으로 이동  
+		{
+			for (int i = 0; i < 5; i++)
+			{
+				for (int j = 0; j < 5; j++)
+				{
+					if (puzzleSize[i][j] == 0 && i > 0)
+					{
+						int temp = puzzleSize[i][j];
+						puzzleSize[i][j] = puzzleSize[i - 1][j];
+						puzzleSize[i - 1][j] = temp;
+					}
+				}
+			}
+		}
+
+		if (inputNum == 6) //오른쪽으로 이동 
+		{
+			for (int i = 0; i < 5; i++)
+			{
+				for (int j = 0; j < 5; j++)
+				{
+					if (puzzleSize[i][j] == 0 && j < 4)
+					{
+						int temp = puzzleSize[i][j];
+						puzzleSize[i][j] = puzzleSize[i][j + 1];
+						puzzleSize[i][j + 1] = temp;
+						break;
+					}
+				}
+			}
+		}
+
+		if (inputNum == 5) //아래쪽으로 이동 
+		{
+			for (int i = 0; i < 5; i++)
+			{
+				for (int j = 0; j < 5; j++)
+				{
+					if (puzzleSize[i][j] == 0 && i < 4)
+					{
+						int temp = puzzleSize[i][j];
+						puzzleSize[i][j] = puzzleSize[i + 1][j];
+						puzzleSize[i + 1][j] = temp;
+						break;
+					}
+				}
+			}
+		}
+		system("cls");
+		inputCount++;
+		}
+	}
+};
+
+
+int main()
+{
+	puzzleQuiz PuzzleMake;
+	PuzzleMake.intro();
+	PuzzleMake.thePuzzle();
+	PuzzleMake.startPos();
+	PuzzleMake.gameStart();
+	
+	return 0;
+}
