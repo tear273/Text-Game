@@ -1,0 +1,140 @@
+#include <iostream>
+#include <string>
+#include <windows.h>
+using namespace std;
+
+class wordPuzzle
+{
+public:
+	wordPuzzle(){};
+	int puzzleNum = 0; //정답 갯수를 저장하는 변수 생성  
+	char answer [11]; //한글 최대 5글자를 저장할 수 있는 문자열 배열 생성  
+	void intro()
+	{
+		cout << endl;
+		cout << "당신의 눈앞에 낱말 퍼즐이 나타났습니다." << endl;
+		cout << "자세히 보니 익숙한 단어들이 보이는 것 같습니다."  << endl;
+		cout << "눈에 띄는 단어를 찾아 입력하면 탈출할 수 있습니다." << endl;
+		cout << endl;
+		cout << endl;
+		
+	}
+	
+	void PuzzleMake()
+	{
+		cout << "	******************************" << endl; 
+		string puzz1("	멤  아  메  개  맙  편  작  드");  //문자열 배열에 낱말퍼즐 생성  
+		string puzz2("	버  루  오  버  로  딩  리  래");
+		string puzz3("	함  프  가  느  홀  독  변  수");
+		string puzz4("	수  헤  연  웬  다  형  성  조");
+		string puzz5("	광  월  산  주  예  배  열  적");
+		string puzz6("	일  케  자  셩  슬  체  더  타");
+		string puzz7("	주  화  즈  융  생  성  자  사");
+		string puzz8("	석  갤  집  퍄  료  웃  표  중");
+		cout << puzz1 << endl; cout << endl;
+		cout << puzz2 << endl; cout << endl;
+		cout << puzz3 << endl; cout << endl;
+		cout << puzz4 << endl; cout << endl;
+		cout << puzz5 << endl; cout << endl;
+		cout << puzz6 << endl; cout << endl;
+		cout << puzz7 << endl; cout << endl;
+		cout << puzz8 << endl; 
+		cout << "	******************************" << endl;
+		cout << endl;
+	}
+	
+	void puzzleAnswering()
+	{
+		
+		cout << "정답을 입력하세요." << endl;
+		cout << endl;
+		while(true)
+		{
+			cout << "정답 : " ;
+			cin >> answer;
+				if(strcmp(answer, "멤버함수")==0) //strcmp(a, b) -> a, b가 같으면 0을, 다르면 0이 아닌 값 출력  
+				{
+					cout << "정답입니다!" << endl;
+					cout << endl;
+					puzzleNum++; 
+				}
+				
+				if(strcmp(answer, "오버로딩")==0)
+				{
+					cout << "정답입니다!" << endl;
+					cout << endl;
+					puzzleNum++;
+				}
+				
+				if(strcmp(answer, "변수")==0) 
+				{
+					cout << "정답입니다!" << endl;
+					cout << endl;
+					puzzleNum++; 
+				}
+			
+				if(strcmp(answer, "연산자")==0) 
+				{
+					cout << "정답입니다!" << endl;
+					cout << endl;
+					puzzleNum++; 
+				}
+			
+				if(strcmp(answer, "다형성")==0) 
+				{
+					cout << "정답입니다!" << endl;
+					cout << endl;
+					puzzleNum++; 
+				}
+				
+				if(strcmp(answer, "배열")==0) 
+				{
+					cout << "정답입니다!" << endl;
+					cout << endl;
+					puzzleNum++; 
+				}
+				
+				if(strcmp(answer, "주석")==0) 
+				{
+					cout << "정답입니다!" << endl;
+					cout << endl;
+					puzzleNum++; 
+				}
+				
+				if(strcmp(answer, "생성자")==0) 
+				{
+					cout << "정답입니다!" << endl;
+					cout << endl;
+					puzzleNum++; 
+				}
+				
+				if(puzzleNum>7) //정답 8개를 맞추는 순간 반복문 탈출  
+				break;
+				
+		}
+				
+	}
+	
+		void puzzleEnd()
+		{
+			if(puzzleNum>3)
+				{
+				system("cls");
+				cout << "모든 정답을 맞췄습니다. 다음 방으로 넘어갑니다." << endl;
+				Sleep(1000);
+				} 
+		}
+		
+};
+
+
+int main()
+{
+	wordPuzzle MakePuzzle;
+	MakePuzzle.intro();
+	MakePuzzle.PuzzleMake();
+	MakePuzzle.puzzleAnswering();
+	MakePuzzle.puzzleEnd();
+	return 0;
+}
+
