@@ -1,0 +1,198 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+class Professor
+{
+public:
+	Professor() {};
+	void villain()
+	{
+		int myHp = 600, myAttack = 30, myMp = 10; //플레이어의 체력, 공격력, 에너지
+		int bossHp = 500, bossAttack = 60, bossMp = 5; //적의 체력, 공격, 에너지
+		int myTurn = 0, bossTurn = 0, gameRandom = 0; //내차례, 적차례, 게임 내 랜덤요소 변수
+		srand(time(NULL));
+		while (myHp > 0 && bossHp > 0) //플레이어와 적의 체력이 0보다 클 동안 반복
+		{
+			system("cls");
+			cout << "*******************************************************" << endl;
+			cout << "김근형교수의 컴퓨터를 해킹하여 종강을 맞이하라!" << endl;
+			cout << endl;
+			cout << "<감히 교수를 빌런으로 등장시켜?>" << endl;
+			cout << endl;
+			cout << endl;
+			cout << "우리의 체력 : " << myHp << "                " << "교수님의 체력 : " << bossHp << endl;
+			cout << "우리의 공격력 : " << myAttack << "               " << "교수님의 공격력 : " << bossAttack << endl;
+			cout << "우리의 에너지 : " << myMp << "               " << "교수님의 에너지 : " << bossMp << endl;
+			cout << "1. 공격" << endl;
+			cout << "2. 회피" << endl;
+			cout << "3. 강화" << endl;
+			cout << "4. 회복" << endl;
+			cout << "5. 필살기" << endl;
+			cout << endl;
+			cout << "※ 필살기는 에너지가 50이상 모여야 사용가능하며 회피가 불가능합니다." << endl;
+			cout << "※ 공격, 강화, 에너지가 50아래일 때의 필살기를 사용하면 에너지가 10씩 충전됩니다." << endl;
+			cout << "※ 공격시 20%의 확률로 추가로 데미지를 줄 수 있습니다.." << endl;
+			system("pause");
+			cout << endl;
+			cout << "하나를 선택하세요 : ";
+			cin >> myTurn; //메뉴 선택
+			cout << endl;
+			bossTurn = rand() % 3 + 1; //적 선택지 3개중 1 선택
+			gameRandom = rand() % 5; //추가공격 확률 설정
+			if (myTurn > 5)
+			{
+				cout << "입력 오류" << endl;
+				system("pause");
+			}
+			else
+			{
+				switch (myTurn) //플레이어 차례
+				{
+				case 1: //공격
+					if (gameRandom != 1) //gameRandom의 난수가 1이 아닐 때
+					{
+						cout << "[공격] 김동현이 해킹을 시도합니다." << endl;
+						if (bossTurn == 2) //적이 회피를 선택했을 대
+						{
+							break; //차례넘김
+						}
+						else
+						{
+							bossHp -= myAttack; //적 체력 감소
+						}
+						cout << endl;
+						cout << endl;
+						myMp += 10; //에너지 증가
+						break;
+					}
+					else //gameRandom의 난수가 1일 때 즉 20%확률로 추가공격
+					{
+						cout << "[특수공격] 김동현이 어나니머스에 지원을 요청합니다." << endl;
+						if (bossTurn == 2)
+						{
+							break;
+						}
+						else
+						{
+							bossHp -= (myAttack + 10); //적 체력 공격력에서 10더한 값 감소
+						}
+						cout << endl;
+						cout << endl;
+						myMp += 10; //에너지증가
+						break;
+					}
+				case 2: //회피
+					cout << "[회피] 박재성이 방화벽을 건설합니다." << endl;
+					cout << endl;
+					cout << endl;
+					break;
+				case 3: //강화
+					cout << "[강화] 손경수의 버프로 코딩실력이 10 상승합니다." << endl;
+					myAttack += 10; //공격력 상승
+					cout << endl;
+					cout << endl;
+					myMp += 10; //에너지 증가
+					break;
+				case 4: //회복
+					cout << "[회복] 성시영이 망가진 소스코드를 복구합니다." << endl;
+					myHp += 30; //체력 상승
+					cout << endl;
+					cout << endl;
+					break;
+				case 5: //필살기
+					cout << "[필살기] 김민솔이 바이러스 프로그램을 준비합니다." << endl;
+					if (myMp >= 50) //에너지가 50이상 일 때만 사용가능
+					{
+						cout << "<가동> ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ" << endl;
+						myMp -= 50; //에너지 50 감소
+						bossHp -= (myAttack * 3); //현재 공격력의 3배의 값을 적 체력에서 감소
+					}
+					else
+					{
+						cout << "[에너지 부족] 바이러스가 덜 완성되어 제작을 계속합니다." << endl;
+						myMp += 5; //에너지 증가
+					}
+					cout << endl;
+					cout << endl;
+					break;
+				}
+				cout << "===============================================" << endl;
+				system("pause");
+				cout << endl;
+				cout << endl;
+				switch (bossTurn) //적 차례
+				{
+				case 1: //공격
+					cout << "[공격] 교수님이 해킹을 시도합니다." << endl;
+					if (myTurn == 2) //플레이어가 회피를 선택 했을 때
+					{
+						cout << endl;
+						cout << "<어? 이걸 막네?>" << endl;
+						myHp -= 0;
+						cout << endl;
+						cout << endl;
+						break;
+					}
+					else //플레이어가 회피를 제외한 다른 메뉴를 선택했을 때
+					{
+						cout << endl;
+						cout << "<과제다!!>" << endl;
+						myHp -= bossAttack; //플레이어 체력 감소
+						bossMp += 5; //보스 에너지 증가
+						cout << endl;
+						cout << endl;
+						break;
+					}
+				case 2: //회피
+					cout << "[회피] 교수님이 해킹을 막았습니다." << endl;
+					cout << endl;
+					cout << "<니들 실력으로 교수를 이길 것 같아?>" << endl;
+					cout << endl;
+					cout << endl;
+					break;
+				case 3: //필살기
+					cout << "[필살기] 교수임이 백신 프로그램을 준비합니다." << endl;
+					if (bossMp >= 50) //에너지가 50이상 일 때만 사용가능
+					{
+						cout << "<가동> Door에 가면 교수가 폭탄을 심어놨어." << endl;
+						cout << endl;
+						cout << endl;
+						bossMp -= 50; //적 에너지 50감소
+						myHp -= (bossAttack * 3); //플레이어의 체력에서 적의 현재 공격력의 3배의 값을 감소
+					}
+					else //에너지가 50보다 작을 때
+					{
+						cout << "[에너지 부족] 백신이 덜 완성되어 제작을 계속합니다." << endl;
+						cout << endl;
+						cout << "<기다려봐 교수가 곧 너희 조 정리할거야.>" << endl;
+						bossMp += 5; //에너지 증가
+						cout << endl;
+						cout << endl;
+					}
+					break;
+				}
+				system("pause");
+				if (bossHp <= 0) //적의 체력이 0이하 일 때
+				{
+					cout << "☆☆☆☆☆ 김민솔 조가 무사히 종강을 맞이했습니다. ☆☆☆☆☆" << endl;
+					cout << endl;
+					break;
+				}
+				else if (myHp <= 0) //플레이어의 체력이 0이하 일 때
+				{
+					cout << "††††† 건방지게 교수한테 도전을 해? 너희는 방학 때 교수 연구실로 와 †††††" << endl;
+					cout << endl;
+					break;
+				}
+			}
+		}
+	}
+};
+int main()
+{
+	Professor professor;
+	professor.villain();
+}
